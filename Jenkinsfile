@@ -6,7 +6,7 @@ node {
      sh "git rev-parse --short HEAD > .git/commit-id"
      commit_id = readFile('.git/commit-id').trim()
    }                
-   stage{
+   stage('Test') {
       withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
         sh 'go test'
     }     
