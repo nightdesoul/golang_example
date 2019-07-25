@@ -1,6 +1,6 @@
 node {
    def commit_id
-   def root = tool name: 'Go 1.12', type: 'go'
+   def root = tool name: 'golang', type: 'go'
    stage('Preparation') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"
