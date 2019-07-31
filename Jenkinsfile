@@ -17,6 +17,12 @@ node {
         sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=go-example -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GO -Dsonar.sources=. -Dsonar.language=go"
       }
    }
+   stage('snyk'){
+      snykSecurity(
+        snykInstallation: 'snyk',
+        snykTokenId: 'snyk'
+      )
+   }
    stage('docker build/push') {            
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
        def app = docker.build("nightdesoul/golang_example:${commit_id}", '.').push()
