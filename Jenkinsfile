@@ -18,11 +18,13 @@ node {
       }
    }
    stage('snyk'){
-      snykSecurity(
-        snykInstallation: 'snyk',
-        failOnIssues: 'false',
-        snykTokenId: 'snyk'
-      )
+     withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
+        snykSecurity(
+          snykInstallation: 'snyk',
+          failOnIssues: 'false',
+          snykTokenId: 'snyk'
+        )
+     }
    }
    stage('docker build/push') {            
      docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
