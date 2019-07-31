@@ -20,6 +20,7 @@ node {
    stage('snyk'){
       snykSecurity(
         snykInstallation: 'snyk',
+        failOnIssues: 'false',
         snykTokenId: 'snyk'
       )
    }
