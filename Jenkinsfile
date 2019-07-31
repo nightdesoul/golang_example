@@ -18,7 +18,6 @@ node {
       }
    }
    stage('snyk'){
-     sh 'go env'
      withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"]) {
         snykSecurity(
           snykInstallation: 'snyk',
