@@ -17,9 +17,13 @@ node {
         sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=go-example -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GO -Dsonar.sources=. -Dsonar.language=go"
       }
    }
-   stage('docker build/push') {            
-     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-       def app = docker.build("nightdesoul/golang_example:${commit_id}", '.').push()
-     }                                     
-   } 
+   stage('Build') {
+      withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
+        sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-extldflags \'-static\'" -o /main'
+    }     
+   }
+   stage('Archive') {
+      archiveArtifacts "/main"
+   }
+
 }
