@@ -19,11 +19,11 @@ node {
    }
    stage('Build') {
       withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
-        sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-extldflags \'-static\'" -o /main'
+        sh 'CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-extldflags \'-static\'" -o ./main'
     }     
    }
    stage('Archive') {
-      archiveArtifacts "/main"
+      archiveArtifacts "main"
    }
 
 }
